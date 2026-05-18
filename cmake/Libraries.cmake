@@ -168,7 +168,8 @@ endmacro()
 macro(configure_xorg_libs)
 
   # Set include dir for BSD-derived systems
-  set(CMAKE_REQUIRED_INCLUDES "/usr/local/include")
+  set(CMAKE_REQUIRED_INCLUDES "/usr/local/include;/usr/X11R6/include")
+  include_directories(/usr/local/include /usr/X11R6/include)
 
   set(XKBlib "X11/Xlib.h;X11/XKBlib.h")
   set(CMAKE_EXTRA_INCLUDE_FILES "${XKBlib};X11/extensions/Xrandr.h")
@@ -191,9 +192,9 @@ macro(configure_xorg_libs)
 
   # Set library path and -L flag for BSD-derived systems.
   # On our FreeBSD CI, `link_directories` is also needed for some reason.
-  set(CMAKE_LIBRARY_PATH "/usr/local/lib")
-  set(CMAKE_REQUIRED_FLAGS "-L${CMAKE_LIBRARY_PATH}")
-  link_directories(${CMAKE_LIBRARY_PATH})
+  set(CMAKE_LIBRARY_PATH "/usr/local/lib;/usr/X11R6/lib")
+  set(CMAKE_REQUIRED_FLAGS "-L/usr/local/lib -L/usr/X11R6/lib")
+  link_directories(/usr/local/lib /usr/X11R6/lib)
 
   check_library_exists("SM;ICE" IceConnectionNumber "" HAVE_ICE)
   check_library_exists("Xext;X11" DPMSQueryExtension "" HAVE_Xext)

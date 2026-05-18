@@ -26,6 +26,11 @@
 #include <openssl/err.h>
 #include <openssl/ssl.h>
 
+// LibreSSL has no SSL_OP_IGNORE_UNEXPECTED_EOF
+#if !defined(SSL_OP_IGNORE_UNEXPECTED_EOF)
+#define SSL_OP_IGNORE_UNEXPECTED_EOF 0
+#endif
+
 //
 // SecureSocket
 //

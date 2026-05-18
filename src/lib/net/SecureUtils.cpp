@@ -35,6 +35,23 @@ const EVP_MD *digestForType(QCryptographicHash::Algorithm type)
   throw std::runtime_error("Unknown fingerprint type " + std::to_string(static_cast<int>(type)));
 }
 
+// LibreSSL has no EVP_RSA_gen()
+EVP_PKEY *evp_rsa_gen(unsigned int bits)
+{
+  EVP_PKEY *pkey = NULL;
+
+  auto *ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, NULL);
+  if (ctx == NULL)
+    return NULL;
+  auto ctxFree = finally([ctx]() { EVP_PKEY_CTX_free(ctx); });
+
+  if (EVP_PKEY_keygen_init(ctx) <= 0 || EVP_PKEY_CTX_set_rsa_keygen_bits(ctx, bits) <= 0 ||
+      EVP_PKEY_keygen(ctx, &pkey) <= 0)
+    pkey = NULL;
+
+  return pkey;
+}
+
 } // namespace
 
 QString formatSSLFingerprint(const QByteArray &fingerprint, bool enableSeparators)
@@ -66,7 +83,7 @@ void generatePemSelfSignedCert(const QString &path, int keyLength)
 {
   auto expirationDays = 365;
 
-  auto *privateKey = EVP_RSA_gen(keyLength);
+  auto *privateKey = evp_rsa_gen(keyLength);
   if (!privateKey) {
     throw std::runtime_error("failed to generate a " + std::to_string(keyLength) + "bit key for certificate");
   }
