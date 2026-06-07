@@ -41,7 +41,7 @@ target_link_libraries(
 
 install(
   TARGETS ${target}
-  RUNTIME_DEPENDENCY_SET coreDeps
+# RUNTIME_DEPENDENCY_SET coreDeps
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 

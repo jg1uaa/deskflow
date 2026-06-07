@@ -51,7 +51,7 @@ target_link_libraries(
 
 install(
   TARGETS ${target}
-  RUNTIME_DEPENDENCY_SET guiDeps
+# RUNTIME_DEPENDENCY_SET guiDeps
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   BUNDLE DESTINATION .
 )
