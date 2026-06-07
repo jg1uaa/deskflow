@@ -4,6 +4,8 @@
 add_subdirectory(config)
 add_subdirectory(core)
 
+link_directories(${eOpenSSL_LIBRARY_DIRS})
+
 create_test(
   NAME LoggerTests
   DEPENDS gui

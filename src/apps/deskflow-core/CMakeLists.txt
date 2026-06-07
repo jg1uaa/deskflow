@@ -33,15 +33,18 @@ target_link_libraries(
   io
   mt
   net
+  ${eOpenSSL_LIBRARIES}
   platform
   server
   app
   Qt6::Widgets
   ${libs})
 
+target_link_directories(${target} PUBLIC ${eOpenSSL_LIBRARY_DIRS})
+
 install(
   TARGETS ${target}
-  RUNTIME_DEPENDENCY_SET coreDeps
+# RUNTIME_DEPENDENCY_SET coreDeps
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 

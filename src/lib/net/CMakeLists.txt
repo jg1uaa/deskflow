@@ -11,7 +11,10 @@ if(APPLE)
 endif()
 
 find_package(Qt6 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS Network)
-find_package(OpenSSL ${REQUIRED_OPENSSL_VERSION} REQUIRED COMPONENTS SSL Crypto)
+find_package(PkgConfig REQUIRED)
+
+pkg_check_modules(eOpenSSL REQUIRED eopenssl35)
+include_directories(${eOpenSSL_INCLUDE_DIRS})
 
 add_library(net STATIC
   Fingerprint.cpp
@@ -50,7 +53,7 @@ add_library(net STATIC
 
 target_link_libraries(
   net
-  PUBLIC OpenSSL::SSL OpenSSL::Crypto Qt6::Network common
+  PUBLIC ${eOpenSSL_LIBRARIES} Qt6::Network common
   PRIVATE mt io)
 
 if(WIN32)

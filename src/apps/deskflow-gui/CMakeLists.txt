@@ -45,13 +45,16 @@ target_link_libraries(
   ${target}
   gui
   common
+  ${eOpenSSL_LIBRARIES}
   Qt6::Core
   Qt6::Widgets
   Qt6::Network)
 
+target_link_directories(${target} PUBLIC ${eOpenSSL_LIBRARY_DIRS})
+
 install(
   TARGETS ${target}
-  RUNTIME_DEPENDENCY_SET guiDeps
+# RUNTIME_DEPENDENCY_SET guiDeps
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   BUNDLE DESTINATION .
 )

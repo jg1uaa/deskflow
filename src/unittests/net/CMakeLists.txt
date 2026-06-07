@@ -5,6 +5,8 @@ if(WIN32)
   set(extra_libs version)
 endif()
 
+link_directories(${eOpenSSL_LIBRARY_DIRS})
+
 create_test(
   NAME SecureUtilsTests
   DEPENDS net

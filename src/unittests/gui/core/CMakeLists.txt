@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: (C) 2025 Deskflow Developers
 # SPDX-License-Identifier: MIT
 
+link_directories(${eOpenSSL_LIBRARY_DIRS})
+
 create_test(
   NAME NetworkMonitorTests
   DEPENDS gui
